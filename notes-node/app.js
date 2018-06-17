@@ -24,15 +24,25 @@ var note = notes.addNote(argv.title, argv.body);
 if (note) {
     console.log("\nNote created");
     // print title and body using es6 string templates
-    console.log(`Title: ${note.title}`);
-    console.log(`Body: ${note.body}`);
+    notes.logNote(note);
 }
 else {console.log("Note title already in use..");}
 
 } else if (command === 'list') {
-    notes.getAll();
+    var allNotes = notes.getAll();
+    console.log(`\nPrinting ${allNotes.length} note(s)`);
+    allNotes.forEach( (note) => notes.logNote(note));
+
+
 } else if (command === 'read') {
-    notes.getNote(argv.title);
+    var note = notes.getNote(argv.title);
+    if (note) {
+        console.log('Note found!');
+        // print title and body using es6 string templates
+        notes.logNote(note);
+    } else {
+        console.log('Note not found!');
+    }
 }else if (command === 'remove') {
     var noteRemoved = notes.removeNote(argv.title);
     var message = noteRemoved ? 'Note was removed' : 'No matching title';

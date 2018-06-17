@@ -46,14 +46,24 @@ var addNote = (title, body) => {
 };
 
 var getAll = () => {
-    console.log('Getting all notes..');
-
+    return fetchNotes();
 };
 
 var getNote = (title) => {
     // triggered by 'read' command line argument
-    console.log('Getting note with title: ' + title);
+    
+    var notes = fetchNotes();
+    var filteredNotes = notes.filter( (note) => (note.title === title) );
+    return filteredNotes[0];
+    // return value needs to be used in app.js
+    // return note obj if found else false/undefined
 }
+
+var logNote = (note) => {
+    console.log('----------------------');
+    console.log(`Title: ${note.title}`);
+    console.log(`Body: ${note.body}`);
+};
 
 var removeNote = (title) => {
     var notes = fetchNotes()
@@ -70,5 +80,6 @@ module.exports = {
     addNote,
     getAll,
     getNote,
-    removeNote
+    removeNote,
+    logNote
 };
