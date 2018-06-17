@@ -14,6 +14,7 @@ var fetchNotes = () => {
 };
 
 var saveNotes = (notes) => {
+    // synchonously writes the stringified array of notes to notes-data.json file
     fs.writeFileSync('notes-data.json', JSON.stringify(notes));
 };
 
@@ -26,7 +27,7 @@ var addNote = (title, body) => {
         title, 
         body   
     };
-    
+    // filter out duplicate notes
     var duplicateNotes = notes.filter( (note) => (note.title === title) );
     if(duplicateNotes.length === 0) {
     // if there are no duplicates
@@ -51,9 +52,11 @@ var getAll = () => {
 
 var getNote = (title) => {
     // triggered by 'read' command line argument
-    
+    // get all of the notes
     var notes = fetchNotes();
+    // filter the notes with title matching title arg
     var filteredNotes = notes.filter( (note) => (note.title === title) );
+    // return the first note with a matching title
     return filteredNotes[0];
     // return value needs to be used in app.js
     // return note obj if found else false/undefined
@@ -72,7 +75,6 @@ var removeNote = (title) => {
     var filteredNotes = notes.filter( (note) => (note.title !== title)  );
     // save the new array of unique notes
     saveNotes(filteredNotes);
-
     return notes.length !== filteredNotes.length;
     }
  
