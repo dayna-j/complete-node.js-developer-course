@@ -18,6 +18,9 @@ const bodyOptions = {
             demand: true,
             alias: 'b'
 }
+
+// .command() defines the commands exposed by the application
+// .command(cmd,description, {config object})
 const argv = yargs.command(
     'add','Add a new note', {
         title: titleOptions,
@@ -31,6 +34,7 @@ const argv = yargs.command(
         title: titleOptions
     }).help().argv;
 
+// .help() displays the usage string and exits the process
 
 // argv._[0] will contain the first argument; the command
 var command = argv._[0];
