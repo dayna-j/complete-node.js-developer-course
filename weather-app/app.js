@@ -30,8 +30,18 @@ request({ // config object
 },
 // callback function
 (error, response, body) => {
+    
+    if(error) {
+        console.log('error');
+    }
+    else if (body.status === 'ZERO_RESULTS') {
+        console.log('Unable to find that address..');
+
+    } else if (body.status === 'OK') {
+        
     console.log(`\nLatitude & Longitude for ${body.results[0].formatted_address}\n`);
     console.log(`Latitude: ${body.results[0].geometry.location.lat}`);
     console.log(`Longitude: ${body.results[0].geometry.location.lng}`);
+    }
 }); // end request call
 
