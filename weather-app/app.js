@@ -1,9 +1,13 @@
 // request is a package available on npm.  It provides an API for
 // working with http requests.
-const request = require('request');
-const yargs = require('yargs');
 
-const apiKey = 'AIzaSyBSWumYsldat90xe_mEKx28I77rtXZ17Lc';
+const yargs = require('yargs');
+// require the geocode module
+const geocode = require('./geocode/geocode');
+const weather = require('./weather/weather');
+// google api
+const googleApiKey = 'AIzaSyBSWumYsldat90xe_mEKx28I77rtXZ17Lc';
+const darkskyApiKey = '894bb53f93a0eba252ea4f04de4c1973';
 
 const argv = yargs
     .options({
@@ -20,28 +24,25 @@ const argv = yargs
         .epilog('Copyright Dayna J. Blackwell 2018')
         .argv;
 
-// console.log(argv.address);
+// call geocodeAddress function on geocode object.  3 input arguments; the address, api key and a callback function
+// the callback function prints an error message if one exists and stringifies the result if there is no error
 
-var encodedAddress = encodeURIComponent(argv.address);
-
-request({ // config object
-    url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodedAddress + apiKey,
-    json: true
-},
-// callback function
-(error, response, body) => {
+geocode.geocodeAddress(argv.address,googleApiKey, (errorMessage, results) => {
+    if(errorMessage) {
+        console.log(errorMessage);
+    } else {
+        console.log(results.address);
+        // weather.getWeather is using the results data from the google geocode api
+        weather.getWeather(results.latitude, results.longitude, darkskyApiKey, (errorMessage, results) => {
     
-    if(error) {
-        console.log('error');
+            if (errorMessage) {
+                console.log(errorMessage);
+            }
+            else {
+                console.log(JSON.stringify(results,undefined, 2));
+            }
+        });
     }
-    else if (body.status === 'ZERO_RESULTS') {
-        console.log('Unable to find that address..');
-
-    } else if (body.status === 'OK') {
-        
-    console.log(`\nLatitude & Longitude for ${body.results[0].formatted_address}\n`);
-    console.log(`Latitude: ${body.results[0].geometry.location.lat}`);
-    console.log(`Longitude: ${body.results[0].geometry.location.lng}`);
-    }
-}); // end request call
+});
+// darksky api key 894bb53f93a0eba252ea4f04de4c1973
 
