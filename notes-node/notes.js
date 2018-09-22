@@ -5,7 +5,7 @@ const fs = require('fs');
 // returns an object of note data
 const fetchNotes = () => {
     try {
-        var notesString = fs.readFileSync('notes-data.json');
+        let notesString = fs.readFileSync('notes-data.json');
     // JSON.parse will construct an object from the string retrieved by the file system module
         return JSON.parse(notesString);
     } catch (e) {
@@ -23,13 +23,13 @@ const saveNotes = (notes) => {
 const addNote = (title, body) => {
 //  uses es6 shorthand syntax for initializing properties
 //  the property key must match the variable name
-    var notes = fetchNotes();
-    var note = {
+    let notes = fetchNotes();
+    let note = {
         title, 
         body   
     };
     // filter out duplicate notes
-    var duplicateNotes = notes.filter( (note) => (note.title === title) );
+    let duplicateNotes = notes.filter( (note) => (note.title === title) );
     if(duplicateNotes.length === 0) {
     // if there are no duplicates
     // push the note object into the notes array
@@ -54,9 +54,9 @@ const getAll = () => {
 const getNote = (title) => {
     // triggered by 'read' command line argument
     // get all of the notes
-    var notes = fetchNotes();
+    let notes = fetchNotes();
     // filter the notes with title matching title arg
-    var filteredNotes = notes.filter( (note) => (note.title === title) );
+    let filteredNotes = notes.filter( (note) => (note.title === title) );
     // return the first note with a matching title
     return filteredNotes[0];
     // return value needs to be used in app.js
@@ -70,10 +70,10 @@ const logNote = (note) => {
 };
 
 const removeNote = (title) => {
-    var notes = fetchNotes()
+    let notes = fetchNotes()
     // create a new array with notes having titles that DO NOT
     // match the title argument
-    var filteredNotes = notes.filter( (note) => (note.title !== title)  );
+    let filteredNotes = notes.filter( (note) => (note.title !== title)  );
     // save the new array of unique notes
     saveNotes(filteredNotes);
     return notes.length !== filteredNotes.length;
