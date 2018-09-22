@@ -2,7 +2,8 @@
 
 const fs = require('fs');
 
-var fetchNotes = () => {
+// returns an object of note data
+const fetchNotes = () => {
     try {
         var notesString = fs.readFileSync('notes-data.json');
     // JSON.parse will construct an object from the string retrieved by the file system module
@@ -13,13 +14,13 @@ var fetchNotes = () => {
     }
 };
 
-var saveNotes = (notes) => {
+const saveNotes = (notes) => {
     // synchonously writes the stringified array of notes to notes-data.json file
     fs.writeFileSync('notes-data.json', JSON.stringify(notes));
 };
 
 // tile, body passed in from app.js as argv.title, argv.body
-var addNote = (title, body) => {
+const addNote = (title, body) => {
 //  uses es6 shorthand syntax for initializing properties
 //  the property key must match the variable name
     var notes = fetchNotes();
@@ -46,11 +47,11 @@ var addNote = (title, body) => {
 
 };
 
-var getAll = () => {
+const getAll = () => {
     return fetchNotes();
 };
 
-var getNote = (title) => {
+const getNote = (title) => {
     // triggered by 'read' command line argument
     // get all of the notes
     var notes = fetchNotes();
@@ -62,13 +63,13 @@ var getNote = (title) => {
     // return note obj if found else false/undefined
 }
 
-var logNote = (note) => {
+const logNote = (note) => {
     console.log('----------------------');
     console.log(`Title: ${note.title}`);
     console.log(`Body: ${note.body}`);
 };
 
-var removeNote = (title) => {
+const removeNote = (title) => {
     var notes = fetchNotes()
     // create a new array with notes having titles that DO NOT
     // match the title argument
