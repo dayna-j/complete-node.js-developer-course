@@ -21,7 +21,10 @@ const bodyOptions = {
 
 // .command() defines the commands exposed by the application
 // .command(cmd,description, {config object})
-const argv = yargs.command(
+const argv = yargs
+    .usage('$0 <cmd> [args]')    
+    .required( 1, "At least one argument is required" )
+    .command(
     'add','Add a new note', {
         title: titleOptions,
         body: bodyOptions
@@ -32,7 +35,10 @@ const argv = yargs.command(
     })
     .command('remove', 'Remove a note', {
         title: titleOptions
-    }).help().argv;
+    })
+    .help()
+    .epilog('Dayna Blackwell 2018')
+    .argv;
 
 // .help() displays the usage string and exits the process
 
